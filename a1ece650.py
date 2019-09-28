@@ -3,7 +3,6 @@ import re
 import sys
 import random
 import math
-
 street_cordinates = {}
 vertices_dictionary = {}
 vertices = set()
@@ -11,19 +10,18 @@ verticesout = set()
 edgecrit1 = set()
 edgecrit2 = set()
 edgedream = set()
+edgedreamfinal = set()
 edgecritduplicate = set()
 acceptance = 1
 user_input = ""
 midpointe = set()
 tempelement = set()
-
-
 def validation_input():  # this function holds regular expressions to filter wrog frmats and patterns
     acceptance2 = 0
     global user_input
     while (acceptance2 == 0):
         # extracting numbers re.findall(r'-?\d+\.?\d*')
-        validationac = re.compile('^[a|c]\s"(\w+\s*\w+)+"\s(\(\s*-?\d+,\s*-?\d+\))+')
+        validationac = re.compile('^[a|c]\s"(\s*\w+\s*\w+\s*)+"\s(\(\s*-?\d+,\s*-?\d+\))+')
         validationg = re.compile('^g')
         validationr = re.compile('^[r]\s"\w+')
         if validationac.match(user_input):
@@ -36,18 +34,13 @@ def validation_input():  # this function holds regular expressions to filter wro
             acceptance2 = 1
         else:
             acceptance2 = 0
-            sys.stderr.write(
-                "Error: inputted wrong format of data.. Try again")  # #this function holds regular expresso
+            sys.stderr.write("Error: inputted wrong format of data.. Try again")  # #this function holds regular expresso
 
             user_input = raw_input("input the command and required input data required\n")
             # global user_input = userinput
-
-
 def a(streetnamea, coordinatesa):
     # add strinf to dictionary
     street_cordinates[streetnamea] = coordinatesa
-
-
 def c(streetnamec, coordinatesc):
     truth = 0
     if (bool(street_cordinates)):
@@ -59,8 +52,6 @@ def c(streetnamec, coordinatesc):
             sys.stderr.write("Error: streetname Do not exist")
     else:
         sys.stderr.write("Error: there are no street or cordinates to change")
-
-
 def r(streetnamer):
     truth = 0
     if (bool(street_cordinates)):
@@ -72,22 +63,25 @@ def r(streetnamer):
             sys.stderr.write("Error: streetname Do not exist")
     else:
         sys.stderr.write("Error: there are no street or cordinates to remove")
-
-
 def g():
     # graph this monster
-
+   # print("edge dream = ", edgedream)
+  #  print("edgecrit2 = ", edgecrit2)
+   # print("edge supposed = ", edgedreamfinal)
     global verticesout
     sys.stdout.write("vertices = { ")
     sys.stdout.write("\n")
     for keys, values in vertices_dictionary.items():
-        sys.stdout.write(" {}: {}".format(keys, values))
+        valuelist = list(values)
+        formatted = ['%.2f' % elem for elem in valuelist]
+        #print("formatted = ") = formatted
+        sys.stdout.write(" {}: {}".format(keys, formatted))
         sys.stdout.write("\n")
     sys.stdout.write("}")
 
     sys.stdout.write("\n")
     sys.stdout.write("\n")
-    sys.stdout.write("Edges")
+    sys.stdout.write("Edges = { ")
     sys.stdout.write("\n")
     edgedone = list(edgedream)
     for edges in edgedone:
@@ -95,8 +89,6 @@ def g():
         sys.stdout.write("\n")
     sys.stdout.write("}")
     sys.stdout.write("\n")
-
-
 def coordinatefunction(coordinates):
     coordinatelist1 = []
     coordinatesdigits = []
@@ -125,8 +117,6 @@ def coordinatefunction(coordinates):
             xcoord = ""
             ycoord = ""
     return coordinatelist1
-
-
 def verticesfinder():
     vstreet = {}
     dunno = []
@@ -139,8 +129,6 @@ def verticesfinder():
                 if val1 not in dunno:
                     dunno.append(val1)
                     verticesfinal(value1, value2)
-
-
 def verticesfinal(a, b):
     seta = coordinatefunction(a)
     setb = coordinatefunction(b)
@@ -156,12 +144,13 @@ def verticesfinal(a, b):
         for i in range(sizeb):
             intersects = intersection(seta[pointa], seta[pointb], setb[pointc], setb[pointd])
             if intersects != 0:
+                #print("INtersection = ", intersects)
                 vertices.add(intersects)
                 vertices.add(seta[pointa])
                 vertices.add(seta[pointb])
                 vertices.add(setb[pointc])
                 vertices.add(setb[pointd])
-                edgecall = edgesbegin(intersects, seta[pointa], seta[pointb], setb[pointc], setb[pointd])
+                edgesbegin(intersects, seta[pointa], seta[pointb], setb[pointc], setb[pointd])
 
             pointc += 1
             pointd += 1
@@ -171,26 +160,23 @@ def verticesfinal(a, b):
     for i in range(len(verticesout)):
         # global  vertices_dictionary = {}
         vertices_dictionary[i + 1] = verticesout[i]
-        # Edgecall1 = edgesbegin(seta[pointa],seta[pointb],setb[pointc],setb[pointd])
-
-
+        # Edgecall = edgesbegin(seta[pointa],seta[pointb],setb[pointc],setb[pointd])
 def intersection(apoint1, apoint2, bpoint1, bpoint2):
     xdifference = (apoint1[0] - apoint2[0], bpoint1[0] - bpoint2[0])
     ydifference = (apoint1[1] - apoint2[1], bpoint1[1] - bpoint2[1])
-    div = det(xdifference, ydifference)
+    div = determinantslover(xdifference, ydifference)
     if div == 0:
         # print('lines do not intersect')
         return 0
-    d = (det(apoint1, apoint2), det(bpoint1, bpoint2))
-    x = round((det(d, xdifference) / div), 7)
-    y = round((det(d, ydifference) / div), 7)
+    d = (determinantslover(apoint1, apoint2), determinantslover(bpoint1, bpoint2))
+    x = round((determinantslover(d, xdifference) / div), 7)
+    y = round((determinantslover(d, ydifference) / div), 7)
     vectora = round(math.sqrt((apoint1[0] ** 2) + (apoint1[1] ** 2)), 7)
     vectorb = round(math.sqrt((apoint2[0] ** 2) + (apoint2[1] ** 2)), 7)
     maximum = round(max(vectora, vectorb), 7)
     minimum = round(min(vectora, vectorb), 7)
     # midpoint = [((x+y/2),((apoint1[1]+apoint1[2])/2)]
     m = math.sqrt((x ** 2) + (y ** 2))
-
     # print("midpoint = ", m)
     # print("x = ",x,"y = ", y)
     if (m >= minimum and m <= maximum):
@@ -200,26 +186,20 @@ def intersection(apoint1, apoint2, bpoint1, bpoint2):
         return x, y
     else:
         return 0
-
-
 def edgesbegin(midpoint, apoint1, apoint2, bpoint1, bpoint2):
     edgecrit1.add((apoint1, midpoint))
     edgecrit1.add((midpoint, apoint2))
     edgecrit1.add((bpoint1, midpoint))
     edgecrit1.add((midpoint, bpoint2))
-    edgeish = set()
-    edgeish1 = set()
-
-
+    return edgecrit1
 def finaledge1():
     test = 1
-    midpoint = []
+    midpoint = 0
     edgeish = list(edgecrit1)
     check = list(midpointe)
     for i in range(len(edgeish)):
+        test=1
         keep = edgeish[i]
-        keepa = list(keep[0])
-        keepb = list(keep[1])
         for j in range(len(check)):
             if check[j] in keep:
                 midpoint = check[j]
@@ -231,18 +211,37 @@ def finaledge1():
             for first in range(len(onestreet) - 1):
                 needed = edgesintersection(keep[0], keep[1], onestreet[a], onestreet[b])
                 if needed != 0:
+                   # print("needed = ", needed)
+                    #print("keep_need = ", keep)
                     if needed not in keep:
+                     #   print("keep1 = " ,keep)
                         test = 0
                         reversable_pointcheck(midpoint, needed)
+
             a += 1
             b += 1
         if test == 1:
-            edgecrit2.add(keep)
-    # shenanigans
-   # print(tempelement)
-    # ID shenanigans 3
-
-
+         #print("keep2 = " ,keep)
+         edgecrit2.add(keep)
+        # shenanigans
+def shenanigans():
+    deadline1 = list(edgecrit2)
+    for i in range(len(deadline1)):
+        test = 1
+        deadline2 = deadline1[i]
+        for keys, values in street_cordinates.items():
+            deadlinestreet = coordinatefunction(values)
+            a = 0
+            b = 1
+            for first in range(len(deadlinestreet) - 1):
+                deadlinejust = edgesintersection(deadline2[0], deadline2[1], deadlinestreet[a], deadlinestreet[b])
+                if deadlinejust == 0:
+                    del deadline1[i]
+            a += 1
+            b += 1
+        global edgedreamfinal
+        edgedreamfinal.add(deadline1[i])
+        # shenanigans
 def reversable_pointcheck(x, y):
     pyt1 = (x[0] - y[0]) ** 2
     pyt2 = (x[1] - y[1]) ** 2
@@ -261,10 +260,33 @@ def reversable_pointcheck(x, y):
             mag2 = round(whatevs, 7)
         if mag2 != mag1:
             tempelement.add((x, y))
-
-
 # def shenanigans():
-
+def edgesintersection(keepa, keepb, bpoint1, bpoint2):
+    xdifference = (keepa[0] - keepb[0], bpoint1[0] - bpoint2[0])
+    ydifference = (keepa[1] - keepb[1], bpoint1[1] - bpoint2[1])
+    div = determinantslover(xdifference, ydifference)
+    if div == 0:
+        # print('lines do not intersect')
+        return 0
+    d = (determinantslover(keepa, keepb), determinantslover(bpoint1, bpoint2))
+    x = round((determinantslover(d, xdifference) / div), 7)
+    y = round((determinantslover(d, ydifference) / div), 7)
+    vectora = round((math.sqrt((keepa[0] ** 2) + (keepa[1] ** 2))), 7)
+    vectorb = round((math.sqrt((keepb[0] ** 2) + (keepb[1] ** 2))), 7)
+    vectorc= round((math.sqrt((bpoint1[0] ** 2) + (bpoint1[1] ** 2))), 7)
+    vectord = round((math.sqrt((bpoint2[0] ** 2) + (bpoint2[1] ** 2))), 7)
+    maximum = round(max(vectora, vectorb), 7)
+    minimum = round(min(vectora, vectorb), 7)
+    maximuma = round(max(vectorc, vectord), 7)
+    minimuma= round(min(vectorc, vectord), 7)
+    # midpoint = [((x+y/2),((apoint1[1]+apoint1[2])/2)]
+    m = round(math.sqrt((x ** 2) + (y ** 2)), 7)
+    # print("midpoint = ", m)
+    # print("x = ",x,"y = ", y)
+    if (m >= minimum and m <= maximum and m >= minimuma and m <= maximuma):
+        return x,y
+    else:
+        return 0
 def edgeid():
     edgeish = list(edgecrit2)
     #print("edgish", edgeish)
@@ -285,40 +307,13 @@ def edgeid():
                 break
         edgetired = "<{},{}>".format(ida, idb)
         edgedream.add(edgetired)
-
-
-def edgesintersection(keepa, keepb, bpoint1, bpoint2):
-    xdifference = (keepa[0] - keepb[0], bpoint1[0] - bpoint2[0])
-    ydifference = (keepa[1] - keepb[1], bpoint1[1] - bpoint2[1])
-    div = det(xdifference, ydifference)
-    if div == 0:
-        # print('lines do not intersect')
-        return 0
-    d = (det(keepa, keepb), det(bpoint1, bpoint2))
-    x = round((det(d, xdifference) / div), 7)
-    y = round((det(d, ydifference) / div), 7)
-    vectora = round((math.sqrt((keepa[0] ** 2) + (keepa[1] ** 2))), 7)
-    vectorb = round((math.sqrt((keepb[0] ** 2) + (keepb[1] ** 2))), 7)
-    maximum = round(max(vectora, vectorb), 7)
-    minimum = round(min(vectora, vectorb), 7)
-    # midpoint = [((x+y/2),((apoint1[1]+apoint1[2])/2)]
-    m = round(math.sqrt((x ** 2) + (y ** 2)), 7)
-    # print("midpoint = ", m)
-    # print("x = ",x,"y = ", y)
-    if (m >= minimum and m <= maximum):
-        return x, y
-    else:
-        return 0
-
-
-def det(a, b):
+def determinantslover(a, b):
     return (a[0] * b[1]) - (a[1] * b[0])
-
-
 def main():
+    sys.stdout.write("input the command and required input data required\n")
     while (acceptance == 1):
         global user_input
-        user_input = raw_input("input the command and required input data required\n")
+        user_input = raw_input()
         validation_input()
         if user_input == "g":
             g()
@@ -346,17 +341,14 @@ def main():
             edgecritduplicate.clear()
             midpointe.clear()
             tempelement.clear()
+            edgedreamfinal.clear()
             coordinatefunction(coordinates2)
-            # print(street_cordinates) # printing out the dictionary to make sure its correct
-            verticesfinder()
-            finaledge1()
-            edgeid()
-
+        verticesfinder()
+        finaledge1()
+        edgeid()
         # sys.exit(0)
-
-
 if __name__ == '__main__':
-    try:
+   # try:
         main()
-    except Exception:
-        sys.stderr.write("Error: Wrong input format...")
+   # except Exception:
+   #     sys.stderr.write("Error: Wrong input format...")

@@ -68,16 +68,19 @@ def g():
    # print("edge dream = ", edgedream)
   #  print("edgecrit2 = ", edgecrit2)
    # print("edge supposed = ", edgedreamfinal)
-    global verticesout
-    sys.stdout.write("vertices = { ")
-    sys.stdout.write("\n")
-    for keys, values in vertices_dictionary.items():
+   if (bool(street_cordinates)):
+        global verticesout
+        sys.stdout.write("vertices = { ")
+        sys.stdout.write("\n")
+        for keys, values in vertices_dictionary.items():
         valuelist = list(values)
         formatted = ['%.2f' % elem for elem in valuelist]
         #print("formatted = ") = formatted
         sys.stdout.write(" {}: {}".format(keys, formatted))
         sys.stdout.write("\n")
-    sys.stdout.write("}")
+        sys.stdout.write("}")
+    else:
+        sys.stderr.write("Error: there are no streets or  cordinates to graph \n")
 
     sys.stdout.write("\n")
     sys.stdout.write("\n")

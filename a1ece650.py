@@ -73,25 +73,26 @@ def g():
         sys.stdout.write("vertices = { ")
         sys.stdout.write("\n")
         for keys, values in vertices_dictionary.items():
-        valuelist = list(values)
-        formatted = ['%.2f' % elem for elem in valuelist]
-        #print("formatted = ") = formatted
-        sys.stdout.write(" {}: {}".format(keys, formatted))
-        sys.stdout.write("\n")
+            valuelist = list(values)
+            formatted = ['%.2f' % elem for elem in valuelist]
+            #print("formatted = ") = formatted
+            sys.stdout.write(" {}: {}".format(keys, formatted))
+            sys.stdout.write("\n")
         sys.stdout.write("}")
-    else:
-        sys.stderr.write("Error: there are no streets or  cordinates to graph \n")
 
-    sys.stdout.write("\n")
-    sys.stdout.write("\n")
-    sys.stdout.write("Edges = { ")
-    sys.stdout.write("\n")
-    edgedone = list(edgedream)
-    for edges in edgedone:
-        sys.stdout.write(" {},".format(edges))
+
         sys.stdout.write("\n")
-    sys.stdout.write("}")
-    sys.stdout.write("\n")
+        sys.stdout.write("\n")
+        sys.stdout.write("Edges = { ")
+        sys.stdout.write("\n")
+        edgedone = list(edgedream)
+        for edges in edgedone:
+            sys.stdout.write(" {},".format(edges))
+            sys.stdout.write("\n")
+        sys.stdout.write("}")
+        sys.stdout.write("\n")
+   else:
+       sys.stderr.write("Error: there are no streets or cordinates to graph \n")
 def coordinatefunction(coordinates):
     coordinatelist1 = []
     coordinatesdigits = []

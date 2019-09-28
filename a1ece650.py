@@ -34,9 +34,9 @@ def validation_input():  # this function holds regular expressions to filter wro
             acceptance2 = 1
         else:
             acceptance2 = 0
-            sys.stderr.write("Error: inputted wrong format of data.. Try again")  # #this function holds regular expresso
+            sys.stderr.write("Error: inputted wrong format of data.. Try again \n")  # #this function holds regular expresso
 
-            user_input = raw_input("input the command and required input data required\n")
+            user_input = raw_input("input the command and required input data required \n")
             # global user_input = userinput
 def a(streetnamea, coordinatesa):
     # add strinf to dictionary
@@ -49,9 +49,9 @@ def c(streetnamec, coordinatesc):
                 street_cordinates[key] = coordinatesc
                 truth = 1
         if truth != 1:
-            sys.stderr.write("Error: streetname Do not exist")
+            sys.stderr.write("Error: streetname Do not exist \n")
     else:
-        sys.stderr.write("Error: there are no street or cordinates to change")
+        sys.stderr.write("Error: there are no street or cordinates to change \n")
 def r(streetnamer):
     truth = 0
     if (bool(street_cordinates)):
@@ -60,9 +60,9 @@ def r(streetnamer):
                 del street_cordinates[streetnamer]
                 truth = 1
         if truth != 1:
-            sys.stderr.write("Error: streetname Do not exist")
+            sys.stderr.write("Error: streetname Do not exist \n")
     else:
-        sys.stderr.write("Error: there are no street or cordinates to remove")
+        sys.stderr.write("Error: there are no street or cordinates to remove \n")
 def g():
     # graph this monster
    # print("edge dream = ", edgedream)
@@ -310,7 +310,7 @@ def edgeid():
 def determinantslover(a, b):
     return (a[0] * b[1]) - (a[1] * b[0])
 def main():
-    sys.stdout.write("input the command and required input data required\n")
+    sys.stdout.write("input the command and required input data required \n")
     while (acceptance == 1):
         global user_input
         user_input = raw_input()
@@ -331,7 +331,7 @@ def main():
             elif comand[0] == "r":
                 r(street_name)
             else:
-                sys.stderr.write("You have inputed the wrong comand ")
+                sys.stderr.write("You have inputed the wrong comand \n")
             vertices_dictionary.clear()
             vertices.clear()
             verticesout.clear()
@@ -351,4 +351,4 @@ if __name__ == '__main__':
    # try:
         main()
    # except Exception:
-   #     sys.stderr.write("Error: Wrong input format...")
+   #     sys.stderr.write("Error: Wrong input format... \n")

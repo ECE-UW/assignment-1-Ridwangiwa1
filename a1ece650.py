@@ -35,8 +35,13 @@ def validation_input():  # this function holds regular expressions to filter wro
         else:
             acceptance2 = 0
             sys.stderr.write("Error: inputted wrong format of data.. Try again \n")  # #this function holds regular expresso
-
-            user_input = raw_input("input the command and required input data required \n")
+            try:
+                user_input = raw_input()
+            except EOFError:
+                print ("Error: EOF or empty input!")
+                user_input = " "
+            print user_input
+            user_input = raw_input()
             # global user_input = userinput
 def a(streetnamea, coordinatesa):
     # add strinf to dictionary
@@ -70,7 +75,7 @@ def g():
    # print("edge supposed = ", edgedreamfinal)
    if (bool(street_cordinates)):
         global verticesout
-        sys.stdout.write("vertices = { ")
+        sys.stdout.write("V = { ")
         sys.stdout.write("\n")
         for keys, values in vertices_dictionary.items():
             valuelist = list(values)
@@ -83,7 +88,7 @@ def g():
 
         sys.stdout.write("\n")
         sys.stdout.write("\n")
-        sys.stdout.write("Edges = { ")
+        sys.stdout.write("E = { ")
         sys.stdout.write("\n")
         edgedone = list(edgedream)
         for edges in edgedone:
@@ -314,7 +319,8 @@ def edgeid():
 def determinantslover(a, b):
     return (a[0] * b[1]) - (a[1] * b[0])
 def main():
-    sys.stdout.write("input the command and required input data required \n")
+
+   ##raw_input
     while (acceptance == 1):
         global user_input
         user_input = raw_input()

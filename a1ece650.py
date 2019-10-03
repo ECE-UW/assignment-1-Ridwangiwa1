@@ -88,7 +88,16 @@ def g():
             valuelist = list(values)
             formatted = ['%.2f' % elem for elem in valuelist]
             #print("formatted = ") = formatted
-            sys.stdout.write(" {}: {}".format(keys, *formatted))
+            #formatted2 = sys.stdout.write.format(*formatted)
+           # sys.stdout.write(" {}: {}".format(keys, *formatted, sep =' '))
+           # sys.stdout.write(keys)
+           # sys.stdout.write(": (")
+            ##sys.stdout.write(*formatted, sep =', ')
+            sys.stdout.write(" {}: {}".format(keys, " ("))
+            sys.stdout.write(', '.join(formatted))
+            sys.stdout.write(")")
+           # sys.stdout.write(', '.join(formatted))
+          #  sys.stdout.write(")")
             sys.stdout.write("\n")
         sys.stdout.write("}")
 
@@ -99,7 +108,9 @@ def g():
         sys.stdout.write("\n")
         edgedone = list(edgedream)
         for edges in edgedone:
-            sys.stdout.write(" {},".format(edges))
+            sys.stdout.write(" {}".format(edges))
+            if edges != edgedone[-1]:
+                sys.stdout.write(', ')
             sys.stdout.write("\n")
         sys.stdout.write("}")
         sys.stdout.write("\n")

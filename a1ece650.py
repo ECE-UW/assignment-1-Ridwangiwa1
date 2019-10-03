@@ -21,9 +21,9 @@ def validation_input():  # this function holds regular expressions to filter wro
     global user_input
     while (acceptance2 == 0):
         # extracting numbers re.findall(r'-?\d+\.?\d*')
-        validationac = re.compile('^[a|c]\s"(\s*\w+\s*\w+\s*)+"\s(\(\s*-?\d+,\s*-?\d+\))+')
+        validationac = re.compile('^[a|c]\s+\"(\s*\w+\s*)+\"\s+((\(\s*-?[0-9]+\s*,\s*-?[0-9]+\s*\)\s*)+)$')
         validationg = re.compile('^g')
-        validationr = re.compile('^[r]\s"\w+')
+        validationr = re.compile('^[r]\s+\"(\s*\w+\s*)+\"\s+')
         if validationac.match(user_input):
             acceptance2 = 1
 
@@ -38,14 +38,21 @@ def validation_input():  # this function holds regular expressions to filter wro
             try:
                 user_input = raw_input()
             except EOFError:
-                print ("Error: EOF or empty input!")
-                user_input = " "
-            print user_input
-            user_input = raw_input()
+                sys.stderr.write("Error: EOF or empty input!")
+                sys.exit()
+               # user_input = " "
+            #print user_input
+           # user_input = raw_input()
             # global user_input = userinput
 def a(streetnamea, coordinatesa):
     # add strinf to dictionary
-    street_cordinates[streetnamea] = coordinatesa
+    truth = 0
+    for key in street_cordinates.keys():
+        if key == streetnamea:
+            sys.stderr.write("Error: streetname already exists \n")
+            truth = 1
+    if truth != 1:
+            street_cordinates[streetnamea] = coordinatesa
 def c(streetnamec, coordinatesc):
     truth = 0
     if (bool(street_cordinates)):
@@ -81,7 +88,7 @@ def g():
             valuelist = list(values)
             formatted = ['%.2f' % elem for elem in valuelist]
             #print("formatted = ") = formatted
-            sys.stdout.write(" {}: {}".format(keys, formatted))
+            sys.stdout.write(" {}: {}".format(keys, *formatted))
             sys.stdout.write("\n")
         sys.stdout.write("}")
 
@@ -255,6 +262,7 @@ def reversable_pointcheck(x, y):
     pyt1 = (x[0] - y[0]) ** 2
     pyt2 = (x[1] - y[1]) ** 2
     magna = math.sqrt(pyt1 + pyt2)
+    mag2 =0
     mag1 = round(magna, 7)
     if len(tempelement) == 0:
         tempelement.add((x, y))
@@ -332,8 +340,10 @@ def main():
             comand = inputlist[0]
             street_name = inputlist[1]
             coordinates = inputlist[2]
+          #  print( "Coordinates ",coordinates)
             coordinates2 = coordinates.replace(" ", "")
             # Consider a forloop statement here for the situation the error s not caught somewhere else
+           # print("Coordinates2 ", coordinates2)
             if comand[0] == "a":
                 a(street_name, coordinates2)
             elif comand[0] == "c":

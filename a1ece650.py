@@ -19,11 +19,12 @@ tempelement = set()
 def validation_input():  # this function holds regular expressions to filter wrog frmats and patterns
     acceptance2 = 0
     global user_input
+    #d2 = user_input.lower()
     while (acceptance2 == 0):
         # extracting numbers re.findall(r'-?\d+\.?\d*')
-        validationac = re.compile('^[a|c]\s+\"(\s*\w+\s*)+\"\s+((\(\s*-?[0-9]+\s*,\s*-?[0-9]+\s*\)\s*)+)$')
+        validationac = re.compile('^[a|c]\s+\"(\s*\w+\s*)+\"\s+((\(\s*-?[0-9]+\s*,\s*-?[0-9]+\s*\)\s*)+)$', re.IGNORECASE)
         validationg = re.compile('^g')
-        validationr = re.compile('^[r]\s+\"(\s*\w+\s*)+\"\s+')
+        validationr = re.compile('^r(\s*\"(\s*\w*\s*)+\")')
         if validationac.match(user_input):
             acceptance2 = 1
 
@@ -219,9 +220,16 @@ def edgesbegin(midpoint, apoint1, apoint2, bpoint1, bpoint2):
     edgecrit1.add((bpoint1, midpoint))
     edgecrit1.add((midpoint, bpoint2))
     return edgecrit1
+
+def func(x, y):
+    if x == y[0]:
+        return y[1]
+    if x == y[1]:
+        return y[0]
 def finaledge1():
     test = 1
     midpoint = 0
+   #kept= 0
     edgeish = list(edgecrit1)
     check = list(midpointe)
     for i in range(len(edgeish)):
@@ -231,20 +239,22 @@ def finaledge1():
             if check[j] in keep:
                 midpoint = check[j]
                 break
+        kept = func(midpoint, keep)
         for keys, values in street_cordinates.items():
             onestreet = coordinatefunction(values)
             a = 0
             b = 1
             for first in range(len(onestreet) - 1):
+                kept = func(midpoint, keep)
                 needed = edgesintersection(keep[0], keep[1], onestreet[a], onestreet[b])
                 if needed != 0:
                    # print("needed = ", needed)
                     #print("keep_need = ", keep)
+                    #print ("kept = ", kept)
                     if needed not in keep:
-                     #   print("keep1 = " ,keep)
-                        test = 0
-                        reversable_pointcheck(midpoint, needed)
-
+                        if(kept != onestreet[a] and kept != onestreet[b]):
+                            test = 0
+                            reversable_pointcheck(midpoint, needed)
             a += 1
             b += 1
         if test == 1:
@@ -349,18 +359,24 @@ def main():
         else:
             inputlist = user_input.split('"')
             comand = inputlist[0]
-            street_name = inputlist[1]
+            name = inputlist[1]
+            street_name = name.lower()
             coordinates = inputlist[2]
-          #  print( "Coordinates ",coordinates)
             coordinates2 = coordinates.replace(" ", "")
             # Consider a forloop statement here for the situation the error s not caught somewhere else
            # print("Coordinates2 ", coordinates2)
             if comand[0] == "a":
                 a(street_name, coordinates2)
+                coordinatefunction(coordinates2)
             elif comand[0] == "c":
+                #coordinatefunction(coordinates2)
                 c(street_name, coordinates2)
+                coordinatefunction(coordinates2)
             elif comand[0] == "r":
-                r(street_name)
+                if coordinates2:
+                    sys.stderr.write("You have inputed the wrong comand \n")
+                else:
+                    r(street_name)
             else:
                 sys.stderr.write("You have inputed the wrong comand \n")
             vertices_dictionary.clear()
@@ -373,7 +389,7 @@ def main():
             midpointe.clear()
             tempelement.clear()
             edgedreamfinal.clear()
-            coordinatefunction(coordinates2)
+           # coordinatefunction(coordinates2)
         verticesfinder()
         finaledge1()
         edgeid()
